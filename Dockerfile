@@ -67,6 +67,25 @@ WORKDIR /comfyui
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./
 
+
+##################################################################
+#INSTALL CUSTOM_NODES
+
+# Switch to the custom_nodes directory
+WORKDIR /comfyui/custom_nodes
+
+git clone https://github.com/ader148/custom_nodes_comfyUI.git .
+
+# Instala todas las dependencias
+RUN for dir in */; do \
+        if [ -f "$dir/requirements.txt" ]; then \
+            echo "Instalando dependencias de $dir"; \
+            pip install -r "$dir/requirements.txt" --no-cache-dir; \
+        fi; \
+    done
+###################################################################
+
+
 # Go back to the root
 WORKDIR /
 
@@ -95,6 +114,6 @@ CMD ["/start.sh"]
 FROM base AS final
 
 # Copy local custom nodes to ComfyUI custom_nodes directory
-COPY custom_nodes/ /comfyui/custom_nodes/
+#COPY custom_nodes/ /comfyui/custom_nodes/
 
 
