@@ -69,7 +69,7 @@ ADD src/extra_model_paths.yaml ./
 
 
 ##################################################################
-#INSTALL CUSTOM_NODES
+#INSTALL CUSTOM_NODES personalizados
 
 # Switch to the custom_nodes directory
 WORKDIR /comfyui/custom_nodes
