@@ -74,7 +74,9 @@ ADD src/extra_model_paths.yaml ./
 # Switch to the custom_nodes directory
 WORKDIR /comfyui/custom_nodes
 
-RUN git clone https://github.com/ader148/custom_nodes_comfyUI.git .
+# Limpiar el directorio si tiene contenido y clonar
+RUN rm -rf ./* .[^.]* 2>/dev/null || true && \
+    git clone https://github.com/ader148/custom_nodes_comfyUI.git . || true
 
 # Instala todas las dependencias
 RUN for dir in */; do \
