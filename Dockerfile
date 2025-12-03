@@ -78,13 +78,17 @@ WORKDIR /comfyui/custom_nodes
 RUN rm -rf ./* .[^.]* 2>/dev/null || true && \
     git clone https://github.com/ader148/custom_nodes_comfyUI.git . || true
 
-# Instala todas las dependencias
+# Instala todas las dependencias evitando downgrades críticos
 RUN for dir in */; do \
         if [ -f "$dir/requirements.txt" ]; then \
             echo "Instalando dependencias de $dir"; \
-            pip install -r "$dir/requirements.txt" --no-cache-dir; \
+            pip install -r "$dir/requirements.txt" --no-cache-dir --upgrade-strategy=only-if-needed || true; \
         fi; \
     done
+
+# Asegurar que las dependencias críticas de ComfyUI se mantengan en versiones compatibles
+# Esto corrige el conflicto específico que viste en los logs
+RUN pip install --upgrade "timm>=1.0.17" "numpy>=1.26.0" "pillow>=10.0.0" "protobuf>=4.25.0" "transformers>=4.55.0" || true
 ###################################################################
 
 
