@@ -86,9 +86,15 @@ RUN for dir in */; do \
         fi; \
     done
 
-# Asegurar que las dependencias críticas de ComfyUI se mantengan en versiones compatibles
-# Esto corrige el conflicto específico que viste en los logs
-RUN pip install --upgrade "timm>=1.0.17" "numpy>=1.26.0" "pillow>=10.0.0" "protobuf>=4.25.0" "transformers>=4.55.0" || true
+# Ajustar dependencias a versiones compatibles con ComfyUI Y los custom nodes
+# Priorizamos ComfyUI pero mantenemos compatibilidad con custom nodes críticos
+RUN pip install --upgrade \
+    "timm>=1.0.17" \
+    "numpy>=1.26.0,<2.0" \
+    "pillow>=10.0.0,<11.0" \
+    "protobuf>=4.25.0,<5.0" \
+    "transformers>=4.55.0" \
+    "tokenizers>=0.19.0,<0.22.0" || true
 ###################################################################
 
 
