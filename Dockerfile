@@ -70,31 +70,6 @@ ADD src/extra_model_paths.yaml ./
 
 ##################################################################
 #INSTALL CUSTOM_NODES personalizados
-
-# Switch to the custom_nodes directory
-WORKDIR /comfyui/custom_nodes
-
-# Limpiar el directorio si tiene contenido y clonar
-RUN rm -rf ./* .[^.]* 2>/dev/null || true && \
-    git clone https://github.com/ader148/custom_nodes_comfyUI.git . || true
-
-# Instala todas las dependencias evitando downgrades críticos
-RUN for dir in */; do \
-        if [ -f "$dir/requirements.txt" ]; then \
-            echo "Instalando dependencias de $dir"; \
-            pip install -r "$dir/requirements.txt" --no-cache-dir --upgrade-strategy=only-if-needed || true; \
-        fi; \
-    done
-
-# Ajustar dependencias a versiones compatibles con ComfyUI Y los custom nodes
-# Priorizamos ComfyUI pero mantenemos compatibilidad con custom nodes críticos
-RUN pip install --upgrade \
-    "timm>=1.0.17" \
-    "numpy>=1.26.0,<2.0" \
-    "pillow>=10.0.0,<11.0" \
-    "protobuf>=4.25.0,<5.0" \
-    "transformers>=4.55.0" \
-    "tokenizers>=0.19.0,<0.22.0" || true
 ###################################################################
 
 
