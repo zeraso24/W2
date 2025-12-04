@@ -17,3 +17,5 @@ services:
     volumes:
       - ./data/comfyui/output:/comfyui/output
       - ./data/runpod-volume:/runpod-volume
+       # Montar custom_nodes desde runpod-slim/ComfyUI/custom_nodes en el volumen
+      - ./data/runpod-volume/ComfyUI/custom_nodes:/comfyui/custom_nodes
