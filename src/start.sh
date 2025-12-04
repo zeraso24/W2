@@ -7,6 +7,12 @@ export LD_PRELOAD="${TCMALLOC}"
 # Ensure ComfyUI-Manager runs in offline network mode inside the container
 comfy-manager-set-mode offline || echo "worker-comfyui - Could not set ComfyUI-Manager network_mode" >&2
 
+# Crear symlink de /workspace a /runpod-volume si no existe
+[ -L /workspace ] || ln -sfn /runpod-volume /workspace
+
+# Crear symlink para custom_nodes desde el volumen
+ln -sfn /runpod-volume/ComfyUI/custom_nodes /comfyui/custom_nodes
+
 echo "worker-comfyui: Starting ComfyUI"
 
 # Allow operators to tweak verbosity; default is DEBUG.
